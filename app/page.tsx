@@ -10,7 +10,7 @@ gsap.registerPlugin(ScrollTrigger);
 
 export default function Home() {
 	return (
-		<main className="bg-neutral-800 p-5">
+		<main className="bg-neutral-800 ">
 			<Hero />
 			<About />
 		</main>
