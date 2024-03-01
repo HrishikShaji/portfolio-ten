@@ -13,10 +13,9 @@ export const Timeline = () => {
 		let ctx = gsap.context(() => {
 			gsap.set(educationRef.current, { xPercent: -100 });
 			gsap.set(experienceRef.current, { xPercent: 100 });
-			gsap.set(educationRefs.current, { xPercent: -100 });
-			gsap.set(experienceRefs.current, { xPercent: 100 });
 
 			const timeline = gsap.timeline();
+			const itemsTl = gsap.timeline();
 
 			timeline
 				.to(educationRef.current, {
@@ -36,35 +35,49 @@ export const Timeline = () => {
 						end: "top top",
 						scrub: 1,
 					},
-				})
-				.to(experienceRefs.current, {
-					xPercent: 0,
-					stagger: 0.05,
-					scrollTrigger: {
-						trigger: experienceRef.current,
-						start: "top 75%",
-						end: "top top",
-						scrub: 1,
-					},
-				})
-				.to(educationRefs.current, {
-					xPercent: 0,
-					stagger: 0.05,
-					scrollTrigger: {
-						trigger: experienceRef.current,
-						start: "top 75%",
-						end: "top top",
-						scrub: 1,
-					},
 				});
-		}, containerRef);
+
+			itemsTl
+				.fromTo(
+					experienceRefs.current,
+					{
+						yPercent: (i) => (i + 1) * 100,
+					},
+					{
+						yPercent: 0,
+						stagger: 0.05,
+						scrollTrigger: {
+							trigger: containerRef.current,
+							start: "top 25%",
+							end: "top top",
+							scrub: 1,
+						},
+					},
+				)
+				.fromTo(
+					educationRefs.current,
+					{
+						yPercent: (i) => (i + 1) * 100,
+					},
+					{
+						yPercent: 0,
+						stagger: 0.05,
+						scrollTrigger: {
+							trigger: containerRef.current,
+							start: "top 25%",
+							end: "top top",
+							scrub: 1,
+						},
+					},
+				);
+		});
 
 		return () => ctx.kill();
 	}, []);
 	return (
 		<div
 			ref={containerRef}
-			className="h-screen w-full flex flex-col items-center justify-center text-white"
+			className="h-screen w-full overflow-hidden flex flex-col items-center justify-center text-white"
 		>
 			<div className="flex gap-10 items-center">
 				<h1 className="text-8xl font-semibold" ref={educationRef}>
