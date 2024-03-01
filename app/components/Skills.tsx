@@ -1,6 +1,7 @@
 import { useEffect, useRef } from "react";
 import { data } from "../lib/data";
 import { cookies } from "next/headers";
+import gsap from "gsap";
 
 const coords = [
 	{ y: 60, x: 600 },
@@ -21,25 +22,36 @@ const coords = [
 	{ y: 700, x: 900 },
 ];
 export const Skills = () => {
-	const skillRefs = useRef<(HTMLHeadingElement | null)[]>([]);
+	const skillRefs = useRef<(HTMLDivElement | null)[]>([]);
 	useEffect(() => {
-		skillRefs.current.forEach((el) => {
-			console.log(el?.offsetTop, el?.offsetLeft);
+		let ctx = gsap.context(() => {
+			gsap.to(skillRefs.current, {
+				ease: "sine.inOut",
+				yoyo: true,
+				duration: 1,
+				scale: 1.1,
+				xPercent: (i) => (i % 2 === 0 ? (i + 1) * 2 : (i + 1) * -2),
+				repeat: -1,
+			});
 		});
+
+		return () => ctx.kill();
 	}, []);
 
 	return (
 		<div className="h-screen relative w-full text-white flex items-center  justify-center ">
 			<h1 className="text-7xl">Skills</h1>
 			{data.skills.data.map((item, i) => (
-				<h1
-					className="absolute"
+				<div
 					style={{ top: `${coords[i].y}px`, left: `${coords[i].x}px` }}
 					ref={(el) => (skillRefs.current[i] = el)}
 					key={i}
+					className="absolute p-3 rounded-2xl bg-white text-black"
 				>
-					{item.name}
-				</h1>
+					<div className="relative ">
+						<h1>{item.name}</h1>
+					</div>
+				</div>
 			))}
 		</div>
 	);
