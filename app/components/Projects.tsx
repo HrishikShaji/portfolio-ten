@@ -12,16 +12,19 @@ export const Projects = () => {
 		>
 			<div className=" flex h-[75%] flex-col gap-2">
 				<Accordion
+					xValue={200}
 					active={0}
 					items={data.projects.data.slice(0, 4)}
 					ref={containerRef}
 				/>
 				<Accordion
+					xValue={-200}
 					active={1}
 					items={data.projects.data.slice(4, 8)}
 					ref={containerRef}
 				/>
 				<Accordion
+					xValue={200}
 					active={2}
 					items={data.projects.data.slice(8, 12)}
 					ref={containerRef}

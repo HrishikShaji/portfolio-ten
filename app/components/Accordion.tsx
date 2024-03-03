@@ -4,10 +4,11 @@ import gsap from "gsap";
 interface AccordionProps {
 	items: any[];
 	active: number;
+	xValue: number;
 }
 
 const Accordion = forwardRef<HTMLDivElement, AccordionProps>(
-	({ items, active }, ref) => {
+	({ items, active, xValue }, ref) => {
 		const projectRefs = useRef<(HTMLDivElement | null)[]>([]);
 		const containerRef = useRef<HTMLDivElement>(null);
 		const parentRef = ref as MutableRefObject<HTMLDivElement>;
@@ -19,19 +20,21 @@ const Accordion = forwardRef<HTMLDivElement, AccordionProps>(
 				timeline.fromTo(
 					projectRefs.current,
 					{
-						x: -200,
+						x: xValue,
+						opacity: 0,
 					},
 					{
 						x: 0,
+						opacity: 1,
 						stagger: {
-							from: "end",
-							each: 0.2,
+							from: xValue === 200 ? "start" : "end",
+							each: 0.5,
 						},
 						scrollTrigger: {
 							trigger: containerRef.current,
 							start: "-50% 80%",
 							end: () => `+=${projectRefs.current[0]?.offsetHeight}`,
-							scrub: 1,
+							scrub: 3,
 						},
 					},
 				);
@@ -40,12 +43,12 @@ const Accordion = forwardRef<HTMLDivElement, AccordionProps>(
 					projectRefs.current,
 					{ width: "200px" },
 					{
-						duration: 0.25,
+						duration: 0.5,
 						width: (i) => (i === active ? "600px" : "200px"),
 						scrollTrigger: {
 							trigger: parentRef.current,
 							start: "bottom bottom",
-							markers: true,
+							end: "bottom bottom",
 						},
 					},
 				);
