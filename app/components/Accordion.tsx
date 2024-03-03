@@ -16,40 +16,39 @@ const Accordion = forwardRef<HTMLDivElement, AccordionProps>(
 			let ctx = gsap.context(() => {
 				const timeline = gsap.timeline();
 
-				timeline
-					.fromTo(
-						projectRefs.current,
-						{
-							xPercent: -100,
+				timeline.fromTo(
+					projectRefs.current,
+					{
+						x: -200,
+					},
+					{
+						x: 0,
+						stagger: {
+							from: "end",
+							each: 0.2,
 						},
-						{
-							xPercent: 0,
-							stagger: {
-								from: "end",
-								each: 0.2,
-							},
-							scrollTrigger: {
-								trigger: containerRef.current,
-								start: "-50% 80%",
-								end: () => `+=${projectRefs.current[0]?.offsetHeight}`,
-								scrub: 1,
-							},
+						scrollTrigger: {
+							trigger: containerRef.current,
+							start: "-50% 80%",
+							end: () => `+=${projectRefs.current[0]?.offsetHeight}`,
+							scrub: 1,
 						},
-					)
-					.fromTo(
-						projectRefs.current,
-						{ width: "200px" },
-						{
-							duration: 0.5,
-							width: (i) => (i === active ? "600px" : "200px"),
-							scrollTrigger: {
-								trigger: parentRef.current,
-								start: "top 20%",
-								end: "top top",
-								markers: true,
-							},
+					},
+				);
+
+				gsap.fromTo(
+					projectRefs.current,
+					{ width: "200px" },
+					{
+						duration: 0.25,
+						width: (i) => (i === active ? "600px" : "200px"),
+						scrollTrigger: {
+							trigger: parentRef.current,
+							start: "bottom bottom",
+							markers: true,
 						},
-					);
+					},
+				);
 
 				projectRefs.current.forEach((el) => {
 					const width = el?.getBoundingClientRect().width;
