@@ -36,18 +36,29 @@ export const Slider = () => {
 	const sliderRef = useRef<HTMLDivElement>(null);
 
 	useEffect(() => {
-		Draggable.create(sliderRef.current, {
-			type: "x",
-			bounds: {
-				minX: -sliderRef.current.clientWidth + window.innerWidth * 0.88,
-				maxX: 0,
-			},
-		});
+		let ctx = gsap.context(() => {
+			const width = sliderRef.current?.getBoundingClientRect().width;
+			if (width) {
+				Draggable.create(sliderRef.current, {
+					type: "x",
+					bounds: {
+						minX: -width + window.innerWidth,
+						maxX: 0,
+					},
+				});
+			}
+		}, sliderRef);
+
+		return () => ctx.kill();
 	}, []);
 
 	return (
-		<div id="slider" className="slider flex gap-10 w-full" ref={sliderRef}>
-			{data.testimonials.map((item, index) => {
+		<div
+			id="slider"
+			className="slider bg-teal-500 flex flex-shrink-0 p-5 gap-10 w-fit pr-40"
+			ref={sliderRef}
+		>
+			{data.testimonials.slice(0, 5).map((item, index) => {
 				return (
 					<Slide
 						key={index}
