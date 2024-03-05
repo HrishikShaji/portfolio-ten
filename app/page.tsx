@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 import { Hero } from "./components/Hero";
 import { About } from "./components/About";
 import gsap from "gsap";
@@ -16,17 +15,17 @@ import { Slider } from "./components/Slider";
 gsap.registerPlugin(ScrollTrigger);
 
 export default function Home() {
-  return (
-    <main className="bg-neutral-800 overflow-hidden">
-      <Slider />
-      <NewSlider />
-      <Hero />
-      <Testimonials />
-      <About />
-      <Features />
-      <Timeline />
-      <Skills />
-      <Projects />
-    </main>
-  );
+	return (
+		<main className="bg-neutral-800 overflow-hidden">
+			<Slider />
+			<NewSlider />
+			<Hero />
+			<Testimonials />
+			<About />
+			<Features />
+			<Timeline />
+			<Skills />
+			<Projects />
+		</main>
+	);
 }

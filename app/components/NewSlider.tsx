@@ -30,7 +30,9 @@ export const NewSlider = () => {
       width: wrapWidth - cellWidth,
     });
     cells.forEach((cell, i) => {
-      initCell(cell, i);
+      if (cell) {
+        initCell({ element: cell, index: i });
+      }
     });
 
     const animation = gsap
@@ -52,7 +54,7 @@ export const NewSlider = () => {
       },
     })[0];
 
-    function snapX(x) {
+    function snapX(x: number) {
       return Math.round(x / cellWidth) * cellWidth;
     }
 
@@ -60,7 +62,13 @@ export const NewSlider = () => {
       animation.progress(myWrapper(draggable.x / wrapWidth));
     }
 
-    function initCell(element, index) {
+    function initCell({
+      element,
+      index,
+    }: {
+      element: HTMLDivElement;
+      index: number;
+    }) {
       gsap.set(element, {
         width: cellWidth,
         scale: 0.6,
