@@ -34,6 +34,7 @@ const Slide: React.FC<SlideProps> = ({ imageSource, content, name }) => {
 
 export const Slider = () => {
 	const sliderRef = useRef<HTMLDivElement>(null);
+	const containerRef = useRef<HTMLDivElement>(null);
 
 	useEffect(() => {
 		let ctx = gsap.context(() => {
@@ -41,10 +42,7 @@ export const Slider = () => {
 			if (width) {
 				Draggable.create(sliderRef.current, {
 					type: "x",
-					bounds: {
-						minX: -width + window.innerWidth,
-						maxX: 0,
-					},
+					bounds: sliderRef.current,
 				});
 			}
 		}, sliderRef);
@@ -53,21 +51,23 @@ export const Slider = () => {
 	}, []);
 
 	return (
-		<div
-			id="slider"
-			className="slider bg-teal-500 flex flex-shrink-0 p-5 gap-10 w-fit pr-40"
-			ref={sliderRef}
-		>
-			{data.testimonials.slice(0, 5).map((item, index) => {
-				return (
-					<Slide
-						key={index}
-						name={item.name}
-						imageSource={item.img}
-						content={item.desc}
-					/>
-				);
-			})}
+		<div className="w-fit flex bg-teal-500 p-5 " ref={containerRef}>
+			<div
+				id="slider"
+				className="flex flex-shrink-0 gap-10 w-fit pr-40"
+				ref={sliderRef}
+			>
+				{data.testimonials.slice(0, 5).map((item, index) => {
+					return (
+						<Slide
+							key={index}
+							name={item.name}
+							imageSource={item.img}
+							content={item.desc}
+						/>
+					);
+				})}
+			</div>
 		</div>
 	);
 };
